@@ -1,0 +1,234 @@
+USE [HorarioEscolar]
+GO
+/****** Object:  Table [dbo].[Usuario]    Script Date: 29/03/2019 01:57:09 a. m. ******/
+DROP TABLE [dbo].[Usuario]
+GO
+/****** Object:  Table [dbo].[Semana]    Script Date: 29/03/2019 01:57:09 a. m. ******/
+DROP TABLE [dbo].[Semana]
+GO
+/****** Object:  Table [dbo].[Materia]    Script Date: 29/03/2019 01:57:09 a. m. ******/
+DROP TABLE [dbo].[Materia]
+GO
+/****** Object:  Table [dbo].[Maestro]    Script Date: 29/03/2019 01:57:09 a. m. ******/
+DROP TABLE [dbo].[Maestro]
+GO
+/****** Object:  Table [dbo].[Horario]    Script Date: 29/03/2019 01:57:09 a. m. ******/
+DROP TABLE [dbo].[Horario]
+GO
+/****** Object:  Table [dbo].[Carrera]    Script Date: 29/03/2019 01:57:09 a. m. ******/
+DROP TABLE [dbo].[Carrera]
+GO
+/****** Object:  Table [dbo].[Alumno]    Script Date: 29/03/2019 01:57:09 a. m. ******/
+DROP TABLE [dbo].[Alumno]
+GO
+USE [master]
+GO
+/****** Object:  Database [HorarioEscolar]    Script Date: 29/03/2019 01:57:09 a. m. ******/
+DROP DATABASE [HorarioEscolar]
+GO
+/****** Object:  Database [HorarioEscolar]    Script Date: 29/03/2019 01:57:09 a. m. ******/
+CREATE DATABASE [HorarioEscolar]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'HorarioEscolar', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\DATA\HorarioEscolar.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'HorarioEscolar_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\DATA\HorarioEscolar_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+GO
+ALTER DATABASE [HorarioEscolar] SET COMPATIBILITY_LEVEL = 140
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [HorarioEscolar].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [HorarioEscolar] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [HorarioEscolar] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [HorarioEscolar] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [HorarioEscolar] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [HorarioEscolar] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET RECOVERY FULL 
+GO
+ALTER DATABASE [HorarioEscolar] SET  MULTI_USER 
+GO
+ALTER DATABASE [HorarioEscolar] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [HorarioEscolar] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [HorarioEscolar] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [HorarioEscolar] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [HorarioEscolar] SET DELAYED_DURABILITY = DISABLED 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'HorarioEscolar', N'ON'
+GO
+ALTER DATABASE [HorarioEscolar] SET QUERY_STORE = OFF
+GO
+USE [HorarioEscolar]
+GO
+/****** Object:  Table [dbo].[Alumno]    Script Date: 29/03/2019 01:57:10 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Alumno](
+	[idAlumno] [int] NOT NULL,
+	[nomAlumno] [varchar](50) NOT NULL,
+	[apellidopAlumno] [varchar](50) NOT NULL,
+	[apellidomAlumno] [varchar](50) NOT NULL,
+	[fdnAlumno] [date] NOT NULL,
+	[sexoAlumno] [char](1) NOT NULL,
+	[idCarrera] [int] NOT NULL,
+	[estatusAlumno] [char](1) NOT NULL,
+	[nomCompletoAlumno]  AS (((([nomAlumno]+' ')+[apellidopAlumno])+' ')+[apellidomAlumno]),
+	[edadAlumno]  AS (datediff(year,[fdnAlumno],getdate())),
+ CONSTRAINT [PK__Alumno__43FBBAC74C109462] PRIMARY KEY CLUSTERED 
+(
+	[idAlumno] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Carrera]    Script Date: 29/03/2019 01:57:10 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Carrera](
+	[idCarrera] [int] NOT NULL,
+	[nomCarrera] [varchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idCarrera] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Horario]    Script Date: 29/03/2019 01:57:10 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Horario](
+	[idHorario] [int] NOT NULL,
+	[horaInicio] [varchar](50) NOT NULL,
+	[horaFin] [varchar](50) NOT NULL,
+	[idDia] [int] NOT NULL,
+	[idAula] [int] NOT NULL,
+	[idMateria] [int] NOT NULL,
+	[idMaestro] [int] NOT NULL,
+	[horaClase]  AS ((((CONVERT([varchar](10),[idAula])+' ')+CONVERT([varchar](10),[horaInicio]))+'-')+CONVERT([varchar](10),[horaFin])),
+ CONSTRAINT [PK__Horario__DE60F33A2F7572A3] PRIMARY KEY CLUSTERED 
+(
+	[idHorario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Maestro]    Script Date: 29/03/2019 01:57:10 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Maestro](
+	[idMaestro] [int] NOT NULL,
+	[nomMaestro] [varchar](50) NOT NULL,
+	[apellidopMaestro] [varchar](50) NOT NULL,
+	[apellidomMaestro] [varchar](50) NOT NULL,
+	[nomCompletoMaestro]  AS (((([nomMaestro]+' ')+[apellidopMaestro])+' ')+[apellidomMaestro]),
+PRIMARY KEY CLUSTERED 
+(
+	[idMaestro] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Materia]    Script Date: 29/03/2019 01:57:10 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Materia](
+	[idMateria] [int] NOT NULL,
+	[nomMateria] [varchar](50) NOT NULL,
+	[idCarrera] [int] NOT NULL,
+	[idSemestre] [int] NOT NULL,
+	[idMaestro] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idMateria] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Semana]    Script Date: 29/03/2019 01:57:10 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Semana](
+	[idDia] [int] NOT NULL,
+	[nomDia] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idDia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Usuario]    Script Date: 29/03/2019 01:57:10 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Usuario](
+	[idAlumno] [int] NOT NULL,
+	[claveUsuario] [varchar](50) NOT NULL,
+	[fechaCreacion]  AS (getdate()),
+PRIMARY KEY CLUSTERED 
+(
+	[idAlumno] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[Alumno] ([idAlumno], [nomAlumno], [apellidopAlumno], [apellidomAlumno], [fdnAlumno], [sexoAlumno], [idCarrera], [estatusAlumno]) VALUES (1625958, N'Brandon Alonso', N'Davila', N'Sanchez', CAST(N'1996-09-21' AS Date), N'H', 100, N'A')
+INSERT [dbo].[Horario] ([idHorario], [horaInicio], [horaFin], [idDia], [idAula], [idMateria], [idMaestro]) VALUES (1, N'7:00', N'8:00', 1, 101, 1, 123)
+INSERT [dbo].[Maestro] ([idMaestro], [nomMaestro], [apellidopMaestro], [apellidomMaestro]) VALUES (1000, N'David', N'Rodriguez', N'Ramirez')
+INSERT [dbo].[Usuario] ([idAlumno], [claveUsuario]) VALUES (1625958, N'116224')
+USE [master]
+GO
+ALTER DATABASE [HorarioEscolar] SET  READ_WRITE 
+GO
